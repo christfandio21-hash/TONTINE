@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { formatCurrency, formatDate } from '../lib/utils';
 import type { TontineMember, Profile, Category, FineType, FineApplication, Contribution, CashWithdrawal } from '../types/database';
-import { Scale, Plus, Check, AlertCircle, Clock, CheckCircle, ChevronDown, ChevronRight, Wallet, Banknote } from 'lucide-react';
+import { Scale, Plus, Check, CircleAlert as AlertCircle, Clock, CircleCheck as CheckCircle, ChevronDown, ChevronRight, Wallet, Banknote } from 'lucide-react';
 
 const EF_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tontine-data`;
 
@@ -74,7 +74,7 @@ export default function FinesPage({ tontineId, isAdmin }: FinesPageProps) {
       setApplySourceCategory(selectedFineType.source_category_id || '');
       setApplyDestCategory(selectedFineType.destination_category_id || '');
     }
-  }, [applyFineType]);
+  }, [selectedFineType]);
 
   // Calculate member balance per category (contributions - withdrawals)
   const memberCategoryBalance = useMemo(() => {

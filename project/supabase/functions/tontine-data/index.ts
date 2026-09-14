@@ -43,7 +43,7 @@ function generateScheduleDates(
 
   if (periodicityType === "monthly") {
     const weekNumber = periodicityDetail.weekNumber;
-    let current = new Date(start.getFullYear(), start.getMonth(), 1);
+    const current = new Date(start.getFullYear(), start.getMonth(), 1);
     while (current <= end) {
       const nth = getNthSundayOfMonth(current.getFullYear(), current.getMonth(), weekNumber);
       if (nth && nth >= start && nth <= end) dates.push(toLocalDateStr(nth));
@@ -51,12 +51,12 @@ function generateScheduleDates(
     }
   } else if (periodicityType === "weekly") {
     const dayOfWeek = periodicityDetail.dayOfWeek;
-    let current = new Date(start);
+    const current = new Date(start);
     while (current.getDay() !== dayOfWeek) current.setDate(current.getDate() + 1);
     while (current <= end) { dates.push(toLocalDateStr(current)); current.setDate(current.getDate() + 7); }
   } else if (periodicityType === "biweekly") {
     const dayOfWeek = periodicityDetail.dayOfWeek;
-    let current = new Date(start);
+    const current = new Date(start);
     while (current.getDay() !== dayOfWeek) current.setDate(current.getDate() + 1);
     while (current <= end) { dates.push(toLocalDateStr(current)); current.setDate(current.getDate() + 14); }
   }

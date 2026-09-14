@@ -6,9 +6,7 @@ import type {
   Tontine, TontineMember, Profile, Category, Contribution,
   CashWithdrawal, Loan, LoanSource, InterestDistribution,
 } from '../types/database';
-import {
-  Plus, X, Check, AlertCircle, Search, ChevronUp, ChevronDown, Save,
-} from 'lucide-react';
+import { Plus, X, Check, CircleAlert as AlertCircle, Search, ChevronUp, ChevronDown, Save } from 'lucide-react';
 
 const EF_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tontine-data`;
 
@@ -115,7 +113,7 @@ export default function TransferTontinePage({ tontineId, onNavigate }: TransferT
         }]);
       }
     }
-  }, [tontine, profile]);
+  }, [tontine, profile, newMembers.length]);
 
   const getCategoryAvailable = useCallback((catId: string) => {
     const cat = categories.find((c) => c.id === catId);

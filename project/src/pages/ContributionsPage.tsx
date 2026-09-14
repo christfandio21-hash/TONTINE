@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { formatCurrency, formatDate, getPeriodicityLabel, generateScheduleDates } from '../lib/utils';
 import type { Category, Contribution, TontineMember, Profile, Tontine } from '../types/database';
-import { HandCoins, Plus, Check, AlertCircle, ChevronDown, ChevronRight, Calendar, Pencil, X } from 'lucide-react';
+import { HandCoins, Plus, Check, CircleAlert as AlertCircle, ChevronDown, ChevronRight, Calendar, Pencil, X } from 'lucide-react';
 
 const EF_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tontine-data`;
 
@@ -145,7 +145,7 @@ export default function ContributionsPage({ tontineId, isAdmin }: ContributionsP
     if (periodGroups.length > 0 && expandedPeriods.size === 0) {
       setExpandedPeriods(new Set([periodGroups[0].periodDate]));
     }
-  }, [periodGroups]);
+  }, [periodGroups, expandedPeriods.size]);
 
 
   const togglePeriod = (periodDate: string) => {

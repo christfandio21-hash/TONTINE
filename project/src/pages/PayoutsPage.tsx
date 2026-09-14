@@ -124,7 +124,7 @@ export default function PayoutsPage({ tontineId, isAdmin, onNavigate }: PayoutsP
       const firstUnpaid = periodContributions.find((p) => !p.isPaidOut);
       if (firstUnpaid) setExpandedPeriods(new Set([firstUnpaid.periodDate]));
     }
-  }, [periodContributions]);
+  }, [periodContributions, expandedPeriods.size]);
 
   const togglePeriod = (periodDate: string) => {
     setExpandedPeriods((prev) => {
