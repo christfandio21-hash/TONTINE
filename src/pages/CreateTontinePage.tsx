@@ -388,7 +388,6 @@ export default function CreateTontinePage({ onCreated, onNavigate }: CreateTonti
           withdraw_at_end_only: c.withdraw_at_end_only,
           loan_order: loanIdx >= 0 ? loanIdx + 1 : null,
           initial_amount: Object.values(c.initial_amounts_per_member || {}).reduce((s, v) => s + (v || 0), 0),
-          initial_amount_per_member: 0,
         };
       });
 
