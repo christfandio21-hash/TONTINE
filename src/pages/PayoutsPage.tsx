@@ -170,8 +170,17 @@ export default function PayoutsPage({ tontineId, isAdmin, onNavigate }: PayoutsP
     if (!tontine) return;
     const period = periodContributions.find((p) => p.periodDate === periodDate);
     if (!period) return;
-    const nextPending = schedule.find((s) => s.status === 'pending');
-    const recipientProfile = (nextPending as any)?.profile as Profile | undefined;
+
+    let recipientProfile: Profile | undefined;
+    const payout = payouts.find((p) => (p as any).period_date === periodDate);
+    if (payout) {
+      const recipientMember = members.find((m) => m.id === payout.recipient_member_id);
+      recipientProfile = recipientMember?.profile;
+    } else {
+      const nextPending = schedule.find((s) => s.status === 'pending');
+      recipientProfile = (nextPending as any)?.profile as Profile | undefined;
+    }
+
     generateRecapPDF({
       tontine,
       members,

@@ -69,6 +69,7 @@ export function generateRecapPDF(data: RecapData): void {
   const { tontine, members, categories, contributions, withdrawals, loans, repayments, payouts, interestDistributions, periodDate, payoutAmount, recipientProfile } = data;
 
   const nonContribCategories = categories.filter((c) => !c.is_contribution && !c.can_withdraw_anytime);
+  const contribCategories = categories.filter((c) => c.is_contribution || c.can_withdraw_anytime);
   const activeLoans = loans.filter((l) => l.status === 'active');
   const completedPayouts = payouts.filter((p) => (p as any).period_date);
 
@@ -135,6 +136,8 @@ export function generateRecapPDF(data: RecapData): void {
   .payout-highlight .label { font-size: 14px; color: #047857; font-weight: 600; }
   .payout-highlight .amount { font-size: 32px; font-weight: 800; color: #065f46; font-family: monospace; margin: 6px 0; }
   .payout-highlight .recipient { font-size: 16px; color: #047857; }
+  .payout-highlight .breakdown-line { display: flex; justify-content: space-between; font-size: 14px; color: #047857; padding: 2px 20%; font-family: monospace; }
+  .payout-highlight .breakdown-total { display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; color: #065f46; padding: 4px 20% 0; margin-top: 4px; border-top: 1px solid #10b981; font-family: monospace; }
   .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 11px; color: #94a3b8; }
   @media print { body { padding: 20px; } .no-print { display: none; } }
 </style>
@@ -149,6 +152,13 @@ export function generateRecapPDF(data: RecapData): void {
   <div class="payout-highlight">
     <div class="label">Montant verse a ${recipientProfile?.first_name || ''} ${recipientProfile?.last_name || ''}</div>
     <div class="amount">${formatCurrency(payoutAmount)}</div>
+    ${contribCategories.map((c) => {
+      const catTotal = contributions
+        .filter((con) => con.category_id === c.id && con.period_date === periodDate)
+        .reduce((sum, con) => sum + Number(con.amount), 0);
+      return `<div class="breakdown-line"><span>${c.name}</span><span>${formatCurrency(catTotal)}</span></div>`;
+    }).join('')}
+    <div class="breakdown-total"><span>Total</span><span>${formatCurrency(payoutAmount)}</span></div>
     <div class="recipient">Beneficiaire du tour</div>
   </div>
 
